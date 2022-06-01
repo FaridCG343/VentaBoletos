@@ -29,22 +29,24 @@ public class VentaBoletos {
             }
             switch (opc) {
                 case "Venta de boletos" -> {
-                    sala = (int) JOptionPane.showInputDialog(null, "¿Que sala quieres?", "Menú", JOptionPane.QUESTION_MESSAGE, null, new Object[]{1, 2, 3, 4, 5, 6, 7}, 1);
-
                     try {
-                        boletos = Integer.parseInt(JOptionPane.showInputDialog("¿Cuantos boletos quieres?\nBoletos disponibles para la sala" + sala + ": " + (salas[sala - 1]), "1"));
+                        sala = (int) JOptionPane.showInputDialog(null, "¿Que sala quieres?", "Menú", JOptionPane.QUESTION_MESSAGE, null, new Object[]{1, 2, 3, 4, 5, 6, 7}, 1);
                         if (salas[sala - 1] == 0) {
                             throw new SinLugar("Ya no hay lugar");
-                        } else if (boletos > salas[sala - 1]) {
+                        }
+                        boletos = Integer.parseInt(JOptionPane.showInputDialog("¿Cuantos boletos quieres?\nBoletos disponibles para la sala" + sala + ": " + (salas[sala - 1]), "1"));
+                        if (boletos > salas[sala - 1]) {
                             throw new SinLugar("No hay asientos suficientes");
                         } else {
-
+                            salas[sala - 1] -= boletos;
                         }
 
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Ingresa un numero");
-                    } catch (SinLugar e1) {
-
+                    }catch(NullPointerException e1){
+                    }
+                    catch (SinLugar e2) {
+                        JOptionPane.showMessageDialog(null, e2.getMessage());
                     }
                 }
                 case "Cerrar taquilla" -> {
@@ -54,7 +56,7 @@ public class VentaBoletos {
                     JOptionPane.showMessageDialog(null, "UnU");
                 }
             }
-        } while (true);
+        } while (!opc.equals("Cerrar taquilla"));
     }
 }
 
